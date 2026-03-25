@@ -1,0 +1,28 @@
+---
+- name: Install EPEL release on RHEL family (excluding Fedora)
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_distribution != "Fedora"
+
+- name: Install fail2ban
+  ansible.builtin.package:
+    name: fail2ban
+    state: present
+
+- name: Deploy fail2ban jail configuration
+  ansible.builtin.template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart fail2ban
+
+- name: Manage fail2ban service
+  ansible.builtin.service:
+    name: "{{ fail2ban_service_name }}"
+    enabled: "{{ fail2ban_service_enabled }}"
+    state: "{{ fail2ban_service_state }}"

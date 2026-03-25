@@ -1,0 +1,6 @@
+---
+- name: Upgrade system packages
+  hosts: all
+  become: true
+  roles:
+    - role: system_upgrade

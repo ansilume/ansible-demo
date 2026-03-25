@@ -1,0 +1,6 @@
+---
+- name: Install htop
+  hosts: all
+  become: true
+  roles:
+    - role: htop

@@ -1,0 +1,5 @@
+---
+- name: Install vim
+  ansible.builtin.package:
+    name: "{{ vim_package_name }}"
+    state: present

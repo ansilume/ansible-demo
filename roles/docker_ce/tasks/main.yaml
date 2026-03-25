@@ -1,0 +1,21 @@
+---
+- name: Set up Docker CE on Debian-family systems
+  ansible.builtin.include_tasks: debian.yaml
+  when: ansible_os_family == "Debian"
+
+- name: Set up Docker CE on RedHat-family systems
+  ansible.builtin.include_tasks: redhat.yaml
+  when: ansible_os_family == "RedHat"
+
+- name: Start and enable Docker service
+  ansible.builtin.service:
+    name: "{{ docker_service_name }}"
+    enabled: "{{ docker_service_enabled }}"
+    state: "{{ docker_service_state }}"
+
+- name: Add users to docker group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: docker
+    append: true
+  loop: "{{ docker_users }}"

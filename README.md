@@ -1,46 +1,109 @@
 # ansible-demo
 
-Example Ansible playbooks for [Ansilume](https://github.com/ansilume/ansilume).
+Production-ready example Ansible playbooks for [Ansilume](https://github.com/ansilume/ansilume).
 
-This repository is automatically added as the **Demo** project in every fresh Ansilume installation. All playbooks are designed to work with real infrastructure — point them at your inventory and they run.
+This repository is automatically added as the **Demo** project in every fresh Ansilume installation. All playbooks are role-based, cross-distribution, idempotent, and pass strict linting.
+
+## Supported systems
+
+- Debian / Ubuntu
+- RHEL / AlmaLinux / Rocky Linux / Fedora
+
+## Repository structure
+
+```
+.
+├── ansible.cfg
+├── .ansible-lint
+├── .yamllint
+├── requirements.yaml
+├── requirements-dev.txt
+├── playbooks/
+│   ├── install_vim.yaml
+│   ├── install_htop.yaml
+│   ├── install_nginx.yaml
+│   ├── install_docker_ce.yaml
+│   ├── install_fail2ban.yaml
+│   ├── create_user.yaml
+│   └── upgrade.yaml
+└── roles/
+    ├── vim/
+    ├── htop/
+    ├── nginx/
+    ├── docker_ce/
+    ├── fail2ban/
+    ├── system_user/
+    └── system_upgrade/
+```
+
+`playbooks/` contains thin orchestration only. All implementation lives in `roles/`.
 
 ## Playbooks
 
-| Playbook | What it does |
-|---|---|
-| `upgrade.yml` | Upgrade all installed packages (apt / dnf). Prints a notice if a reboot is required. |
-| `install-vim.yml` | Install vim. |
-| `install-nginx.yml` | Install nginx, start and enable the service. |
-| `install-docker-ce.yml` | Install Docker CE from the official Docker repository (apt / dnf). Optionally adds users to the `docker` group. |
-| `install-fail2ban.yml` | Install and configure fail2ban to protect SSH with configurable ban/retry thresholds. |
-| `create-user.yml` | Create a system user with optional passwordless sudo and an SSH authorized key. |
-
-## OS support
-
-All playbooks detect the OS family at runtime and use the appropriate package manager:
-
-- **Debian / Ubuntu** — `apt`
-- **RHEL / CentOS / Rocky Linux / Fedora** — `dnf`
+| Playbook | Role | Description |
+|---|---|---|
+| `install_vim.yaml` | `vim` | Install vim |
+| `install_htop.yaml` | `htop` | Install htop |
+| `install_nginx.yaml` | `nginx` | Install nginx and manage its service |
+| `install_docker_ce.yaml` | `docker_ce` | Install Docker CE from the official repository |
+| `install_fail2ban.yaml` | `fail2ban` | Install and configure fail2ban with SSH jail |
+| `create_user.yaml` | `system_user` | Create a system user with optional sudo and SSH key |
+| `upgrade.yaml` | `system_upgrade` | Upgrade all system packages |
 
 ## Usage in Ansilume
 
 1. Open **Projects → Demo** and click **Sync** to pull the latest playbooks.
 2. Go to **Templates** and pick the job template you want to run.
-3. Set your inventory and (if needed) SSH credential on the template, then launch.
+3. Set your inventory and SSH credential on the template, then launch.
 
-## Variables
+Pass variable overrides via **Extra Vars** (JSON) in the Ansilume job template or at launch time.
 
-Each playbook documents its variables at the top of the file. Pass them via **Extra Vars** (JSON) in the Ansilume job template or at launch time.
+**Create a user with sudo and SSH key:**
 
-Example for `install-docker-ce.yml`:
+```json
+{"new_user": "deploy", "new_user_sudo": true, "new_user_pubkey": "ssh-ed25519 AAAA..."}
+```
+
+**Add users to the Docker group:**
+
 ```json
 {"docker_users": ["ubuntu", "deploy"]}
 ```
 
-Example for `create-user.yml`:
+**Conservative package upgrade on Debian:**
+
 ```json
-{"new_user": "deploy", "new_user_sudo": true, "new_user_pubkey": "ssh-ed25519 AAAA..."}
+{"upgrade_type": "safe"}
 ```
+
+## Local usage
+
+Run against a specific host:
+
+```bash
+ansible-playbook -i your_host, playbooks/install_vim.yaml
+```
+
+## Linting
+
+Install dependencies:
+
+```bash
+pip install -r requirements-dev.txt
+ansible-galaxy collection install -r requirements.yaml
+```
+
+Run lint checks:
+
+```bash
+yamllint .
+ansible-lint
+```
+
+## CI
+
+GitHub Actions runs `yamllint` and `ansible-lint` on every push to `main` and every pull request.
+See [`.github/workflows/lint.yaml`](.github/workflows/lint.yaml).
 
 ## License
 

@@ -1,0 +1,5 @@
+---
+new_user: ""
+new_user_shell: /bin/bash
+new_user_sudo: false
+new_user_pubkey: ""

@@ -1,0 +1,3 @@
+---
+# Upgrade type for Debian-family systems: "dist" or "safe"
+upgrade_type: dist

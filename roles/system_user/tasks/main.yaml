@@ -1,0 +1,28 @@
+---
+- name: Verify new_user is set
+  ansible.builtin.fail:
+    msg: "Variable 'new_user' must be set to a non-empty username."
+  when: not new_user
+
+- name: Create user account
+  ansible.builtin.user:
+    name: "{{ new_user }}"
+    shell: "{{ new_user_shell }}"
+    state: present
+
+- name: Configure passwordless sudo for user
+  ansible.builtin.copy:
+    content: "{{ new_user }} ALL=(ALL) NOPASSWD:ALL\n"
+    dest: "/etc/sudoers.d/{{ new_user }}"
+    owner: root
+    group: root
+    mode: "0440"
+    validate: visudo -cf %s
+  when: new_user_sudo | bool
+
+- name: Add SSH public key for user
+  ansible.posix.authorized_key:
+    user: "{{ new_user }}"
+    key: "{{ new_user_pubkey }}"
+    state: present
+  when: new_user_pubkey | length > 0

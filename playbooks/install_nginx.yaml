@@ -1,0 +1,6 @@
+---
+- name: Install and manage nginx
+  hosts: all
+  become: true
+  roles:
+    - role: nginx

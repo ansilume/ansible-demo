@@ -1,0 +1,22 @@
+---
+# Install vim on the target hosts.
+# Supports Debian/Ubuntu (apt) and RHEL/CentOS/Rocky/Fedora (dnf).
+
+- name: Install vim
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install vim (Debian/Ubuntu)
+      ansible.builtin.apt:
+        name: vim
+        state: present
+        update_cache: true
+      when: ansible_os_family == "Debian"
+
+    - name: Install vim (RHEL/CentOS/Rocky/Fedora)
+      ansible.builtin.dnf:
+        name: vim
+        state: present
+      when: ansible_os_family == "RedHat"

@@ -1,0 +1,51 @@
+---
+# Create a system user with optional sudo access and SSH key.
+#
+# Variables (pass via extra vars in Ansilume):
+#   new_user:        "deploy"         (required — username to create)
+#   new_user_shell:  "/bin/bash"      (default)
+#   new_user_sudo:   false            (set true for passwordless sudo)
+#   new_user_pubkey: ""               (optional — SSH authorized key)
+#
+# Example extra vars:
+#   {"new_user": "deploy", "new_user_sudo": true, "new_user_pubkey": "ssh-ed25519 AAAA..."}
+
+- name: Create system user
+  hosts: all
+  become: true
+  gather_facts: false
+
+  vars:
+    new_user: ""
+    new_user_shell: /bin/bash
+    new_user_sudo: false
+    new_user_pubkey: ""
+
+  pre_tasks:
+    - name: Ensure new_user is set
+      ansible.builtin.fail:
+        msg: "You must set new_user via extra vars, e.g. {\"new_user\": \"deploy\"}"
+      when: new_user == ""
+
+  tasks:
+    - name: Create user account
+      ansible.builtin.user:
+        name: "{{ new_user }}"
+        shell: "{{ new_user_shell }}"
+        create_home: true
+        state: present
+
+    - name: Add to sudoers (passwordless)
+      ansible.builtin.copy:
+        dest: "/etc/sudoers.d/{{ new_user }}"
+        content: "{{ new_user }} ALL=(ALL) NOPASSWD:ALL\n"
+        mode: "0440"
+        validate: "visudo -cf %s"
+      when: new_user_sudo | bool
+
+    - name: Add SSH public key
+      ansible.posix.authorized_key:
+        user: "{{ new_user }}"
+        key: "{{ new_user_pubkey }}"
+        state: present
+      when: new_user_pubkey != ""

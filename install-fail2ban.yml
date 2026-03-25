@@ -1,0 +1,71 @@
+---
+# Install and configure fail2ban to protect SSH.
+# Supports Debian/Ubuntu (apt) and RHEL/CentOS/Rocky/Fedora (dnf/epel).
+#
+# Variables:
+#   fail2ban_bantime:   600   (seconds a host is banned, default 10 min)
+#   fail2ban_findtime:  600   (window for counting failures)
+#   fail2ban_maxretry:  5     (failures before ban)
+
+- name: Install and configure fail2ban
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    fail2ban_bantime: 600
+    fail2ban_findtime: 600
+    fail2ban_maxretry: 5
+
+  tasks:
+    - name: Install EPEL repository (RHEL/CentOS/Rocky)
+      ansible.builtin.dnf:
+        name: epel-release
+        state: present
+      when:
+        - ansible_os_family == "RedHat"
+        - ansible_distribution != "Fedora"
+
+    - name: Install fail2ban (Debian/Ubuntu)
+      ansible.builtin.apt:
+        name: fail2ban
+        state: present
+        update_cache: true
+      when: ansible_os_family == "Debian"
+
+    - name: Install fail2ban (RHEL/CentOS/Rocky/Fedora)
+      ansible.builtin.dnf:
+        name: fail2ban
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Write jail.local
+      ansible.builtin.copy:
+        dest: /etc/fail2ban/jail.local
+        content: |
+          [DEFAULT]
+          bantime  = {{ fail2ban_bantime }}
+          findtime = {{ fail2ban_findtime }}
+          maxretry = {{ fail2ban_maxretry }}
+
+          [sshd]
+          enabled = true
+          port    = ssh
+          logpath = %(sshd_log)s
+          backend = %(sshd_backend)s
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart fail2ban
+
+    - name: Start and enable fail2ban
+      ansible.builtin.service:
+        name: fail2ban
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Restart fail2ban
+      ansible.builtin.service:
+        name: fail2ban
+        state: restarted

@@ -1,0 +1,56 @@
+---
+# Upgrade all installed packages on the target hosts.
+# Supports Debian/Ubuntu (apt) and RHEL/CentOS/Rocky/Fedora (dnf).
+#
+# Variables:
+#   upgrade_type: "dist" (default, apt only — full dist-upgrade)
+#                 "safe"  (apt only — conservative upgrade, no package removal)
+
+- name: Upgrade all packages
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    upgrade_type: dist
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Upgrade packages (Debian/Ubuntu — dist)
+      ansible.builtin.apt:
+        upgrade: dist
+      when:
+        - ansible_os_family == "Debian"
+        - upgrade_type == "dist"
+
+    - name: Upgrade packages (Debian/Ubuntu — safe)
+      ansible.builtin.apt:
+        upgrade: safe
+      when:
+        - ansible_os_family == "Debian"
+        - upgrade_type == "safe"
+
+    - name: Upgrade all packages (RHEL/CentOS/Rocky/Fedora)
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_cache: true
+      when: ansible_os_family == "RedHat"
+
+    - name: Check if reboot is required (Debian/Ubuntu)
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required_file
+      when: ansible_os_family == "Debian"
+
+    - name: Print reboot notice
+      ansible.builtin.debug:
+        msg: "Reboot required to apply kernel updates."
+      when:
+        - ansible_os_family == "Debian"
+        - reboot_required_file.stat.exists

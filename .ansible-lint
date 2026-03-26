@@ -4,3 +4,4 @@ profile: production
 exclude_paths:
   - .git/
   - .github/
+  - collections/

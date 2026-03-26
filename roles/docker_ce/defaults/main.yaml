@@ -1,15 +1,15 @@
 ---
-docker_users: []
-docker_service_name: docker
-docker_service_enabled: true
-docker_service_state: started
+docker_ce_users: []
+docker_ce_service_name: docker
+docker_ce_service_enabled: true
+docker_ce_service_state: started
 
 # Debian-family package lists
-docker_debian_prereq_packages:
+docker_ce_debian_prereq_packages:
   - ca-certificates
   - curl
 
-docker_debian_conflicting_packages:
+docker_ce_debian_conflicting_packages:
   - docker.io
   - docker-doc
   - docker-compose
@@ -17,7 +17,7 @@ docker_debian_conflicting_packages:
   - containerd
   - runc
 
-docker_debian_packages:
+docker_ce_debian_packages:
   - docker-ce
   - docker-ce-cli
   - containerd.io
@@ -25,7 +25,7 @@ docker_debian_packages:
   - docker-compose-plugin
 
 # RedHat-family package lists
-docker_redhat_conflicting_packages:
+docker_ce_redhat_conflicting_packages:
   - docker
   - docker-client
   - docker-client-latest
@@ -37,7 +37,7 @@ docker_redhat_conflicting_packages:
   - podman
   - runc
 
-docker_redhat_packages:
+docker_ce_redhat_packages:
   - docker-ce
   - docker-ce-cli
   - containerd.io

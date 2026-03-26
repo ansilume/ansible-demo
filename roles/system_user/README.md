@@ -13,10 +13,10 @@ Creates a system user account with optional passwordless sudo and SSH public key
 
 | Variable | Default | Description |
 |---|---|---|
-| `new_user` | `""` | **Required.** Username to create |
-| `new_user_shell` | `/bin/bash` | Login shell for the user |
-| `new_user_sudo` | `false` | Grant passwordless sudo via `/etc/sudoers.d/` |
-| `new_user_pubkey` | `""` | SSH public key to add to `authorized_keys` (skipped if empty) |
+| `system_user_name` | `""` | **Required.** Username to create |
+| `system_user_shell` | `/bin/bash` | Login shell for the user |
+| `system_user_sudo` | `false` | Grant passwordless sudo via `/etc/sudoers.d/` |
+| `system_user_pubkey` | `""` | SSH public key to add to `authorized_keys` (skipped if empty) |
 
 ## Example usage
 
@@ -28,7 +28,7 @@ Minimal (user only):
   become: true
   gather_facts: false
   vars:
-    new_user: deploy
+    system_user_name: deploy
   roles:
     - role: system_user
 ```
@@ -41,9 +41,9 @@ Full (sudo + SSH key):
   become: true
   gather_facts: false
   vars:
-    new_user: deploy
-    new_user_sudo: true
-    new_user_pubkey: "ssh-ed25519 AAAA..."
+    system_user_name: deploy
+    system_user_sudo: true
+    system_user_pubkey: "ssh-ed25519 AAAA..."
   roles:
     - role: system_user
 ```

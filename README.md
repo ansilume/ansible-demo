@@ -61,19 +61,19 @@ Pass variable overrides via **Extra Vars** (JSON) in the Ansilume job template o
 **Create a user with sudo and SSH key:**
 
 ```json
-{"new_user": "deploy", "new_user_sudo": true, "new_user_pubkey": "ssh-ed25519 AAAA..."}
+{"system_user_name": "deploy", "system_user_sudo": true, "system_user_pubkey": "ssh-ed25519 AAAA..."}
 ```
 
 **Add users to the Docker group:**
 
 ```json
-{"docker_users": ["ubuntu", "deploy"]}
+{"docker_ce_users": ["ubuntu", "deploy"]}
 ```
 
 **Conservative package upgrade on Debian:**
 
 ```json
-{"upgrade_type": "safe"}
+{"system_upgrade_type": "safe"}
 ```
 
 ## Local usage

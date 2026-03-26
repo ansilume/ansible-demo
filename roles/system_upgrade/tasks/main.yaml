@@ -5,7 +5,7 @@
     update_cache: true
   when:
     - ansible_os_family == "Debian"
-    - upgrade_type == "dist"
+    - system_upgrade_type == "dist"
 
 - name: Upgrade packages on Debian-family systems (safe)
   ansible.builtin.apt:
@@ -13,7 +13,7 @@
     update_cache: true
   when:
     - ansible_os_family == "Debian"
-    - upgrade_type == "safe"
+    - system_upgrade_type == "safe"
 
 - name: Upgrade all packages on RedHat-family systems
   ansible.builtin.dnf:
@@ -24,7 +24,7 @@
 - name: Check for pending reboot on Debian-family systems
   ansible.builtin.stat:
     path: /var/run/reboot-required
-  register: reboot_required_file
+  register: system_upgrade_reboot_required
   when: ansible_os_family == "Debian"
 
 - name: Notify if reboot is required
@@ -32,5 +32,5 @@
     msg: "A reboot is required to complete the upgrade."
   when:
     - ansible_os_family == "Debian"
-    - reboot_required_file.stat is defined
-    - reboot_required_file.stat.exists
+    - system_upgrade_reboot_required.stat is defined
+    - system_upgrade_reboot_required.stat.exists

@@ -1,7 +1,7 @@
 ---
 - name: Remove conflicting Docker packages on RedHat
   ansible.builtin.dnf:
-    name: "{{ docker_redhat_conflicting_packages }}"
+    name: "{{ docker_ce_redhat_conflicting_packages }}"
     state: absent
 
 - name: Add Docker CE repository on RedHat
@@ -15,5 +15,5 @@
 
 - name: Install Docker CE on RedHat
   ansible.builtin.dnf:
-    name: "{{ docker_redhat_packages }}"
+    name: "{{ docker_ce_redhat_packages }}"
     state: present

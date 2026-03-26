@@ -1,5 +1,5 @@
 ---
-new_user: ""
-new_user_shell: /bin/bash
-new_user_sudo: false
-new_user_pubkey: ""
+system_user_name: ""
+system_user_shell: /bin/bash
+system_user_sudo: false
+system_user_pubkey: ""

@@ -13,7 +13,7 @@ On Debian-family systems, the upgrade type is configurable (`dist` or `safe`). A
 
 | Variable | Default | Description |
 |---|---|---|
-| `upgrade_type` | `dist` | Debian upgrade type: `dist` (full) or `safe` (conservative) |
+| `system_upgrade_type` | `dist` | Debian upgrade type: `dist` (full) or `safe` (conservative) |
 
 ## Example usage
 
@@ -32,7 +32,7 @@ To run a conservative upgrade on Debian:
   hosts: all
   become: true
   vars:
-    upgrade_type: safe
+    system_upgrade_type: safe
   roles:
     - role: system_upgrade
 ```

@@ -9,13 +9,13 @@
 
 - name: Start and enable Docker service
   ansible.builtin.service:
-    name: "{{ docker_service_name }}"
-    enabled: "{{ docker_service_enabled }}"
-    state: "{{ docker_service_state }}"
+    name: "{{ docker_ce_service_name }}"
+    enabled: "{{ docker_ce_service_enabled }}"
+    state: "{{ docker_ce_service_state }}"
 
 - name: Add users to docker group
   ansible.builtin.user:
     name: "{{ item }}"
     groups: docker
     append: true
-  loop: "{{ docker_users }}"
+  loop: "{{ docker_ce_users }}"

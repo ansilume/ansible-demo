@@ -1,0 +1,12 @@
+---
+_common_os_packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - git
+  - gnupg
+  - htop
+  - lsb-release
+  - unzip
+  - vim
+  - wget

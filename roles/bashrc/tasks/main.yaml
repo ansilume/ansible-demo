@@ -1,0 +1,9 @@
+---
+- name: Deploy .bashrc for user
+  ansible.builtin.template:
+    src: bashrc.j2
+    dest: "{{ item.home }}/.bashrc"
+    owner: "{{ item.name }}"
+    group: "{{ item.group | default(item.name) }}"
+    mode: "0644"
+  loop: "{{ bashrc_users }}"

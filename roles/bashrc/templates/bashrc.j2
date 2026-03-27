@@ -1,0 +1,36 @@
+# {{ ansible_managed }}
+
+# Source global definitions (RHEL-family)
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# Source global definitions (Debian-family)
+if [ -f /etc/bash.bashrc ]; then
+    . /etc/bash.bashrc
+fi
+
+# History settings
+HISTSIZE={{ bashrc_history_size }}
+HISTFILESIZE={{ bashrc_history_filesize }}
+HISTCONTROL=ignoredups:erasedups
+HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
+shopt -s histappend
+
+# Colour prompt
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+fi
+
+# Default aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+{% for alias in bashrc_aliases %}
+alias {{ alias.name }}='{{ alias.command }}'
+{% endfor %}
+
+# Exports
+{% for export in bashrc_exports %}
+export {{ export }}
+{% endfor %}

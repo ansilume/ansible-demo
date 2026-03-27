@@ -19,21 +19,31 @@ This repository is automatically added as the **Demo** project in every fresh An
 ├── requirements.yaml
 ├── requirements-dev.txt
 ├── playbooks/
-│   ├── install_vim.yaml
-│   ├── install_htop.yaml
-│   ├── install_nginx.yaml
+│   ├── bashrc.yaml
+│   ├── common.yaml
+│   ├── create_user.yaml
+│   ├── hostsfile.yaml
 │   ├── install_docker_ce.yaml
 │   ├── install_fail2ban.yaml
-│   ├── create_user.yaml
+│   ├── install_htop.yaml
+│   ├── install_nginx.yaml
+│   ├── install_vim.yaml
+│   ├── maintenance.yaml
+│   ├── motd.yaml
 │   └── upgrade.yaml
 └── roles/
-    ├── vim/
-    ├── htop/
-    ├── nginx/
+    ├── bashrc/
+    ├── common/
     ├── docker_ce/
     ├── fail2ban/
+    ├── hostsfile/
+    ├── htop/
+    ├── maintenance/
+    ├── motd/
+    ├── nginx/
+    ├── system_upgrade/
     ├── system_user/
-    └── system_upgrade/
+    └── vim/
 ```
 
 `playbooks/` contains thin orchestration only. All implementation lives in `roles/`.
@@ -42,12 +52,17 @@ This repository is automatically added as the **Demo** project in every fresh An
 
 | Playbook | Role | Description |
 |---|---|---|
-| `install_vim.yaml` | `vim` | Install vim |
-| `install_htop.yaml` | `htop` | Install htop |
-| `install_nginx.yaml` | `nginx` | Install nginx and manage its service |
+| `bashrc.yaml` | `bashrc` | Deploy a managed `.bashrc` to one or more users |
+| `common.yaml` | `common` | Install baseline packages and configure SSH keys |
+| `create_user.yaml` | `system_user` | Create a system user with optional sudo and SSH key |
+| `hostsfile.yaml` | `hostsfile` | Manage `/etc/hosts` |
 | `install_docker_ce.yaml` | `docker_ce` | Install Docker CE from the official repository |
 | `install_fail2ban.yaml` | `fail2ban` | Install and configure fail2ban with SSH jail |
-| `create_user.yaml` | `system_user` | Create a system user with optional sudo and SSH key |
+| `install_htop.yaml` | `htop` | Install htop |
+| `install_nginx.yaml` | `nginx` | Install nginx and manage its service |
+| `install_vim.yaml` | `vim` | Install vim |
+| `maintenance.yaml` | `maintenance` | Remove unused packages and clean caches |
+| `motd.yaml` | `motd` | Deploy a managed message of the day |
 | `upgrade.yaml` | `system_upgrade` | Upgrade all system packages |
 
 ## Usage in Ansilume
@@ -76,12 +91,24 @@ Pass variable overrides via **Extra Vars** (JSON) in the Ansilume job template o
 {"system_upgrade_type": "safe"}
 ```
 
+**Add SSH keys and extra packages via common:**
+
+```json
+{"common_ssh_keys": [{"user": "root", "key": "ssh-ed25519 AAAA..."}], "common_packages": ["tmux"]}
+```
+
+**Custom /etc/hosts entries:**
+
+```json
+{"hostsfile_servers_mandatory": ["10.0.0.10  db01 db01.internal"]}
+```
+
 ## Local usage
 
 Run against a specific host:
 
 ```bash
-ansible-playbook -i your_host, playbooks/install_vim.yaml
+ansible-playbook -i your_host, playbooks/common.yaml
 ```
 
 ## Linting

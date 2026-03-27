@@ -1,0 +1,22 @@
+---
+- name: Remove unused packages on Debian-family systems
+  ansible.builtin.apt:
+    autoremove: true
+    purge: true
+  when:
+    - ansible_facts['os_family'] == 'Debian'
+    - maintenance_autoremove
+
+- name: Clean obsolete package cache on Debian-family systems
+  ansible.builtin.apt:
+    autoclean: true
+  when:
+    - ansible_facts['os_family'] == 'Debian'
+    - maintenance_autoclean
+
+- name: Remove unused packages on RedHat-family systems
+  ansible.builtin.dnf:
+    autoremove: true
+  when:
+    - ansible_facts['os_family'] == 'RedHat'
+    - maintenance_autoremove

@@ -1,0 +1,14 @@
+---
+# Extra packages to install on top of the OS-specific baseline list.
+common_packages: []
+
+# SSH authorized keys to add to managed users.
+# Each entry requires: key (public key string).
+# Optional: user (defaults to root).
+# Example:
+#   - user: root
+#     key: "ssh-ed25519 AAAA..."
+common_ssh_keys: []
+
+# Set to false to skip the apt cache update on Debian-family systems.
+common_update_cache: true

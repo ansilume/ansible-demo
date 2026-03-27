@@ -1,0 +1,6 @@
+---
+# Remove packages that were installed as dependencies but are no longer needed.
+maintenance_autoremove: true
+
+# Remove packages that can no longer be downloaded (Debian only).
+maintenance_autoclean: true

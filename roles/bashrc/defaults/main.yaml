@@ -1,0 +1,19 @@
+---
+# Users to receive the managed .bashrc.
+# Each entry requires: name (username), home (home directory path).
+bashrc_users:
+  - name: root
+    home: /root
+
+# History settings
+bashrc_history_size: 10000
+bashrc_history_filesize: 20000
+
+# Additional aliases to append.
+# Each entry requires: name, command.
+# Example: - { name: k, command: kubectl }
+bashrc_aliases: []
+
+# Additional environment variable exports to append.
+# Each entry is a raw export string, e.g. "EDITOR=vim"
+bashrc_exports: []

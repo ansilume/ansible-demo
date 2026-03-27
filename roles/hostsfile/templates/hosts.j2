@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+
+# Loopback
+127.0.0.1   localhost
+{% if ansible_fqdn != ansible_hostname %}
+127.0.0.1   {{ ansible_fqdn }} {{ ansible_hostname }}
+{% else %}
+127.0.0.1   {{ ansible_hostname }}
+{% endif %}
+
+# IPv6 loopback
+::1         localhost ip6-localhost ip6-loopback
+ff02::1     ip6-allnodes
+ff02::2     ip6-allrouters
+{% if hostsfile_servers_mandatory %}
+
+# Mandatory host entries
+{% for entry in hostsfile_servers_mandatory %}
+{{ entry }}
+{% endfor %}
+{% endif %}
+{% if hostsfile_servers_optional %}
+
+# Optional host entries
+{% for entry in hostsfile_servers_optional %}
+{{ entry }}
+{% endfor %}
+{% endif %}

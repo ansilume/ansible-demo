@@ -1,0 +1,6 @@
+---
+- name: Manage /etc/hosts
+  hosts: all
+  become: true
+  roles:
+    - role: hostsfile

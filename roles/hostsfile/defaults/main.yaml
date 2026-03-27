@@ -1,0 +1,7 @@
+---
+# Mandatory /etc/hosts entries — always written.
+# Each entry is a raw line, e.g. "192.168.1.10  db01 db01.example.com"
+hostsfile_servers_mandatory: []
+
+# Optional /etc/hosts entries — written when provided.
+hostsfile_servers_optional: []

@@ -1,0 +1,6 @@
+---
+- name: Run system maintenance
+  hosts: all
+  become: true
+  roles:
+    - role: maintenance

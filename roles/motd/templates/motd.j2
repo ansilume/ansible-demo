@@ -1,0 +1,18 @@
+{% if motd_header %}
+{{ motd_header }}
+{% endif %}
+################################################################################
+
+  Hostname   : {{ ansible_hostname }}
+  FQDN       : {{ ansible_fqdn }}
+  OS         : {{ ansible_distribution }} {{ ansible_distribution_version }}
+  Kernel     : {{ ansible_kernel }}
+  IP address : {{ ansible_default_ipv4.address | default('N/A') }}
+
+  This system is managed by Ansible.
+  Unauthorized access is strictly prohibited.
+
+################################################################################
+{% if motd_footer %}
+{{ motd_footer }}
+{% endif %}

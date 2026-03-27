@@ -1,0 +1,6 @@
+---
+motd_path: /etc/motd
+# Optional text inserted before the system info block
+motd_header: ""
+# Optional text appended after the system info block
+motd_footer: ""

@@ -1,0 +1,10 @@
+---
+_common_os_packages:
+  - ca-certificates
+  - curl
+  - git
+  - gnupg2
+  - htop
+  - unzip
+  - vim
+  - wget

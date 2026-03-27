@@ -2,7 +2,7 @@
 
 Creates a system user account with optional passwordless sudo and SSH public key configuration.
 
-`new_user` is required and has no default. The role will fail immediately if it is not set.
+`system_user_name` is required and has no default. The role will fail immediately if it is not set.
 
 ## Supported platforms
 

@@ -12,7 +12,7 @@ exports, and history settings.
 
 | Variable | Default | Description |
 |---|---|---|
-| `bashrc_users` | `[{name: root, home: /root}]` | Users to receive the `.bashrc` |
+| `bashrc_users` | `[{name: root, home: /root}]` | Users to receive the `.bashrc` (optional `group` key, defaults to `name`) |
 | `bashrc_history_size` | `10000` | `HISTSIZE` value |
 | `bashrc_history_filesize` | `20000` | `HISTFILESIZE` value |
 | `bashrc_aliases` | `[]` | Additional aliases `{name, command}` |

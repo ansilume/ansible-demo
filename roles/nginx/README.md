@@ -22,7 +22,8 @@ Service state and startup behaviour are fully configurable via defaults.
 
 | Handler | Description |
 |---|---|
-| `Reload nginx` | Reloads nginx; use `notify: Reload nginx` from tasks that change config |
+| `Reload nginx` | Reloads nginx gracefully; use for configuration changes |
+| `Restart nginx` | Full restart of nginx; use when reload is insufficient |
 
 ## Example usage
 

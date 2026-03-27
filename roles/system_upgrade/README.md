@@ -2,7 +2,11 @@
 
 Upgrades all system packages on Debian-family and RHEL-family systems.
 
-On Debian-family systems, the upgrade type is configurable (`dist` or `safe`). A reboot notice is printed if `/var/run/reboot-required` is detected after upgrading.
+On Debian-family systems, the upgrade type is configurable (`dist` or `safe`). A reboot
+notice is printed if `/var/run/reboot-required` is detected after upgrading.
+
+> **Note:** This role does not reboot automatically. Handle reboots separately
+> if the debug message indicates one is needed.
 
 ## Supported platforms
 

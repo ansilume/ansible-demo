@@ -1,7 +1,7 @@
 ---
 - name: Deploy /etc/hosts
   ansible.builtin.template:
-    src: hosts.j2
+    src: hosts
     dest: /etc/hosts
     owner: root
     group: root

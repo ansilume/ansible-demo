@@ -39,46 +39,51 @@ Claude must always follow these rules:
    - Never create `.yml` files.
    - If existing `.yml` files are found, prefer migrating them to `.yaml` when safe and when references are updated accordingly.
 
-2. Use roles for implementation.
+2. Do not use `.j2` extension on templates.
+   - Template files must use their native extension (e.g. `bashrc`, `hosts`, `jail.local`), not `.j2`.
+   - Reason: IDEs apply correct syntax highlighting for the actual file type (bash, INI, etc.) when `.j2` is not appended.
+   - Ansible resolves templates by the `src:` value in tasks, so the extension has no functional impact.
+
+3. Use roles for implementation.
    - Top-level playbooks may only orchestrate.
    - Real work must live in roles.
 
-3. One playbook per use case.
+4. One playbook per use case.
    - Each top-level playbook should do one thing only.
    - Example: `playbooks/install_vim.yaml` calls role `vim`.
    - Do not create giant “common” playbooks that install many unrelated tools.
 
-4. Every role must have defaults.
+5. Every role must have defaults.
    - All configurable values must have sane defaults in `defaults/main.yaml`.
    - Avoid hardcoding values that may differ between environments.
 
-5. Debian and RHEL-family support is mandatory.
+6. Debian and RHEL-family support is mandatory.
    - Support Debian-family systems.
    - Support RHEL-family systems, including AlmaLinux.
    - Claude must use facts and variable maps where needed instead of distro-specific duplication.
 
-6. Fully qualify Ansible modules.
+7. Fully qualify Ansible modules.
    - Use FQCN such as `ansible.builtin.package`, `ansible.builtin.service`, `ansible.builtin.template`, etc.
 
-7. Idempotency is required.
+8. Idempotency is required.
    - Tasks must be safe to run repeatedly.
    - Avoid shell/command unless there is no proper module.
    - When shell/command is unavoidable, document why and use strict guards.
 
-8. Production linting is required.
+9. Production linting is required.
    - Repository changes must pass `ansible-lint` with the `production` profile.
    - YAML formatting must pass `yamllint`.
    - GitHub Actions must enforce linting on pushes and pull requests.
 
-9. Keep examples minimal but real.
+10. Keep examples minimal but real.
    - Do not add unnecessary complexity.
    - Do not oversimplify in ways that teach bad habits.
 
-10. Respect existing repository content.
+11. Respect existing repository content.
    - Inspect the current structure, existing playbooks, roles, workflows, and docs before changing anything.
    - Prefer improving existing content over duplicating it.
 
-11. Do not introduce local inventory patterns that are not needed.
+12. Do not introduce local inventory patterns that are not needed.
    - Do not add `inventory/`, `group_vars/`, or similar repository-local inventory scaffolding unless explicitly requested.
    - Assume Ansilume will provide inventory, host targeting, and related runtime context externally.
 

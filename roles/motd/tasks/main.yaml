@@ -1,7 +1,7 @@
 ---
 - name: Deploy message of the day
   ansible.builtin.template:
-    src: motd.j2
+    src: motd
     dest: "{{ motd_path }}"
     owner: root
     group: root

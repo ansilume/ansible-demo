@@ -27,6 +27,7 @@ This repository is automatically added as the **Demo** project in every fresh An
 │   ├── install_fail2ban.yaml
 │   ├── install_htop.yaml
 │   ├── install_nginx.yaml
+│   ├── install_onepassword_cli.yaml
 │   ├── install_vim.yaml
 │   ├── maintenance.yaml
 │   ├── motd.yaml
@@ -41,6 +42,7 @@ This repository is automatically added as the **Demo** project in every fresh An
     ├── maintenance/
     ├── motd/
     ├── nginx/
+    ├── onepassword_cli/
     ├── system_upgrade/
     ├── system_user/
     └── vim/
@@ -60,6 +62,7 @@ This repository is automatically added as the **Demo** project in every fresh An
 | `install_fail2ban.yaml` | `fail2ban` | Install and configure fail2ban with SSH jail |
 | `install_htop.yaml` | `htop` | Install htop |
 | `install_nginx.yaml` | `nginx` | Install nginx and manage its service |
+| `install_onepassword_cli.yaml` | `onepassword_cli` | Install the 1Password CLI from the official repository |
 | `install_vim.yaml` | `vim` | Install vim |
 | `maintenance.yaml` | `maintenance` | Remove unused packages and clean caches |
 | `motd.yaml` | `motd` | Deploy a managed message of the day |

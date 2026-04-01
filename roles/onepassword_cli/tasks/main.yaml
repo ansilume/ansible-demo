@@ -1,0 +1,72 @@
+---
+- name: Set up 1Password CLI repository on Debian-family systems
+  when: ansible_facts['os_family'] == "Debian"
+  block:
+    - name: Create APT keyring directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Download 1Password GPG key
+      ansible.builtin.get_url:
+        url: https://downloads.1password.com/linux/keys/1password.asc
+        dest: /etc/apt/keyrings/1password-archive-keyring.asc
+        mode: "0644"
+
+    - name: Add 1Password APT repository
+      ansible.builtin.apt_repository:
+        repo: >-
+          deb [arch={{ ansible_facts['dpkg_architecture'] | default('amd64') }}
+          signed-by=/etc/apt/keyrings/1password-archive-keyring.asc]
+          https://downloads.1password.com/linux/debian/{{ ansible_facts['dpkg_architecture'] | default('amd64') }}
+          stable main
+        state: present
+        filename: 1password
+
+    - name: Set debsig-verify policy directory
+      ansible.builtin.file:
+        path: /etc/debsig/policies/AC2D62742012EA22
+        state: directory
+        mode: "0755"
+
+    - name: Download 1Password debsig-verify policy
+      ansible.builtin.get_url:
+        url: https://downloads.1password.com/linux/debian/debsig/1password.pol
+        dest: /etc/debsig/policies/AC2D62742012EA22/1password.pol
+        mode: "0644"
+
+    - name: Set debsig keyring directory
+      ansible.builtin.file:
+        path: /usr/share/debsig/keyrings/AC2D62742012EA22
+        state: directory
+        mode: "0755"
+
+    - name: Download 1Password debsig keyring
+      ansible.builtin.get_url:
+        url: https://downloads.1password.com/linux/keys/1password.asc
+        dest: /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.asc
+        mode: "0644"
+
+- name: Set up 1Password CLI repository on RedHat-family systems
+  when: ansible_facts['os_family'] == "RedHat"
+  block:
+    - name: Import 1Password GPG key on RedHat
+      ansible.builtin.rpm_key:
+        key: https://downloads.1password.com/linux/keys/1password.asc
+        state: present
+
+    - name: Add 1Password YUM repository
+      ansible.builtin.yum_repository:
+        name: 1password
+        description: 1Password CLI Stable
+        baseurl: https://downloads.1password.com/linux/rpm/stable/$basearch
+        gpgcheck: true
+        gpgkey: https://downloads.1password.com/linux/keys/1password.asc
+        enabled: true
+        repo_gpgcheck: true
+
+- name: Install 1Password CLI
+  ansible.builtin.package:
+    name: "{{ onepassword_cli_package_name }}"
+    state: present

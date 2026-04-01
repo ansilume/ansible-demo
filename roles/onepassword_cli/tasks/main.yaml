@@ -8,7 +8,7 @@
         state: directory
         mode: "0755"
 
-    - name: Download 1Password GPG key
+    - name: Download 1Password GPG key for APT
       ansible.builtin.get_url:
         url: https://downloads.1password.com/linux/keys/1password.asc
         dest: /etc/apt/keyrings/1password-archive-keyring.asc
@@ -24,7 +24,7 @@
         state: present
         filename: 1password
 
-    - name: Set debsig-verify policy directory
+    - name: Create debsig-verify policy directory
       ansible.builtin.file:
         path: /etc/debsig/policies/AC2D62742012EA22
         state: directory
@@ -36,17 +36,28 @@
         dest: /etc/debsig/policies/AC2D62742012EA22/1password.pol
         mode: "0644"
 
-    - name: Set debsig keyring directory
+    - name: Create debsig keyring directory
       ansible.builtin.file:
         path: /usr/share/debsig/keyrings/AC2D62742012EA22
         state: directory
         mode: "0755"
 
-    - name: Download 1Password debsig keyring
+    - name: Download 1Password signing key for debsig-verify
       ansible.builtin.get_url:
         url: https://downloads.1password.com/linux/keys/1password.asc
         dest: /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.asc
         mode: "0644"
+
+    # gpg --dearmor is required because the 1Password debsig policy
+    # references debsig.gpg (binary format). No Ansible module exists
+    # for GPG key dearmoring.
+    - name: Dearmor 1Password signing key for debsig-verify
+      ansible.builtin.command:
+        cmd: >-
+          gpg --batch --yes --dearmor
+          -o /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+          /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.asc
+        creates: /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
 
 - name: Set up 1Password CLI repository on RedHat-family systems
   when: ansible_facts['os_family'] == "RedHat"

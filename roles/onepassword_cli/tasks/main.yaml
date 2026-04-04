@@ -15,14 +15,17 @@
         mode: "0644"
 
     - name: Add 1Password APT repository
-      ansible.builtin.apt_repository:
-        repo: >-
-          deb [arch={{ ansible_facts['dpkg_architecture'] | default('amd64') }}
-          signed-by=/etc/apt/keyrings/1password-archive-keyring.asc]
-          https://downloads.1password.com/linux/debian/{{ ansible_facts['dpkg_architecture'] | default('amd64') }}
-          stable main
+      ansible.builtin.deb822_repository:
+        name: 1password
+        types: [deb]
+        uris: "https://downloads.1password.com/linux/debian/{{ ansible_facts['dpkg_architecture'] | default('amd64') }}"
+        signed_by: /etc/apt/keyrings/1password-archive-keyring.asc
+        suites: [stable]
+        components: [main]
+        architectures:
+          - "{{ ansible_facts['dpkg_architecture'] | default('amd64') }}"
         state: present
-        filename: 1password
+        enabled: true
 
     - name: Create debsig-verify policy directory
       ansible.builtin.file:

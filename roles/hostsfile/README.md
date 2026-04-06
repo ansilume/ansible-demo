@@ -18,6 +18,7 @@ custom entries.
 |---|---|---|
 | `hostsfile_servers_mandatory` | `[]` | Host entries always written (raw lines) |
 | `hostsfile_servers_optional` | `[]` | Host entries written when provided (raw lines) |
+| `hostsfile_unsafe_writes` | `false` | Set `true` in containers where `/etc/hosts` is a bind mount |
 
 ## Example usage
 
@@ -33,4 +34,14 @@ custom entries.
       - "10.0.0.20 monitoring"
   roles:
     - role: hostsfile
+```
+
+### Running in containers
+
+When the target is a Docker, Podman, LXC, or Kubernetes container, `/etc/hosts`
+is a bind mount and cannot be replaced atomically. Enable `hostsfile_unsafe_writes`
+to fall back to in-place writes:
+
+```json
+{"hostsfile_unsafe_writes": true}
 ```

@@ -5,3 +5,9 @@ hostsfile_servers_mandatory: []
 
 # Optional /etc/hosts entries — written when provided.
 hostsfile_servers_optional: []
+
+# Set to true when running inside containers (Docker, Podman, LXC, k8s).
+# Containers bind-mount /etc/hosts, which prevents atomic rename.
+# unsafe_writes falls back to in-place write, avoiding "Device or resource
+# busy" (Errno 16) errors.
+hostsfile_unsafe_writes: false

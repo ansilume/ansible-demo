@@ -31,6 +31,7 @@ This repository is automatically added as the **Demo** project in every fresh An
 │   ├── install_vim.yaml
 │   ├── maintenance.yaml
 │   ├── motd.yaml
+│   ├── timeout_test.yaml
 │   └── upgrade.yaml
 └── roles/
     ├── bashrc/
@@ -45,6 +46,7 @@ This repository is automatically added as the **Demo** project in every fresh An
     ├── onepassword_cli/
     ├── system_upgrade/
     ├── system_user/
+    ├── timeout_test/
     └── vim/
 ```
 
@@ -66,6 +68,7 @@ This repository is automatically added as the **Demo** project in every fresh An
 | `install_vim.yaml` | `vim` | Install vim |
 | `maintenance.yaml` | `maintenance` | Remove unused packages and clean caches |
 | `motd.yaml` | `motd` | Deploy a managed message of the day |
+| `timeout_test.yaml` | `timeout_test` | **Test-only:** sleeps 12 hours to exercise timeout handling |
 | `upgrade.yaml` | `system_upgrade` | Upgrade all system packages |
 
 ## Usage in Ansilume

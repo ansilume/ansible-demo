@@ -6,3 +6,4 @@
     owner: root
     group: root
     mode: "0644"
+    unsafe_writes: "{{ hostsfile_unsafe_writes }}"

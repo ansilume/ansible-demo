@@ -1,0 +1,5 @@
+---
+# Duration to sleep in minutes. Default is 12 hours (720 minutes).
+# This role exists solely to exercise timeout handling in Ansilume
+# and other orchestrators — it performs no real work.
+timeout_test_minutes: 720

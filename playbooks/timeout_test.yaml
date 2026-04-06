@@ -1,0 +1,10 @@
+---
+# Deliberately long-running playbook used exclusively to test timeout
+# handling in Ansilume and surrounding orchestration tooling. It sleeps
+# for 12 hours by default and performs no real work. Do not use this in
+# real automation. See roles/timeout_test/README.md for details.
+- name: Timeout test (sleeps 12 hours by default)
+  hosts: all
+  gather_facts: false
+  roles:
+    - role: timeout_test

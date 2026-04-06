@@ -1,0 +1,11 @@
+---
+# This role is a deliberate long-running no-op used to verify that
+# timeout configuration in Ansilume (and any surrounding tooling)
+# behaves as expected. It must never be used in real automation.
+- name: Announce timeout test sleep
+  ansible.builtin.debug:
+    msg: "Sleeping for {{ timeout_test_minutes }} minutes to exercise timeout handling."
+
+- name: Sleep for the configured duration
+  ansible.builtin.pause:
+    minutes: "{{ timeout_test_minutes }}"

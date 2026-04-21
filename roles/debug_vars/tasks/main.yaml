@@ -1,0 +1,17 @@
+---
+# Dumps variables visible to the play so that callers can verify that
+# extra vars and other inputs were passed through cleanly. This role
+# performs no changes on the target host.
+- name: Dump all variables available to the play
+  ansible.builtin.debug:
+    var: vars
+
+- name: Dump hostvars for the current host
+  ansible.builtin.debug:
+    var: hostvars[inventory_hostname]
+  when: debug_vars_include_hostvars | bool
+
+- name: Dump gathered facts
+  ansible.builtin.debug:
+    var: ansible_facts
+  when: debug_vars_include_facts | bool

@@ -1,0 +1,9 @@
+---
+# Dumps all variables available to the play via debug. Intended to
+# verify that extra vars (ansible-playbook -e ...) and other inputs
+# are passed through cleanly. Performs no changes on the target host.
+- name: Debug all variables available to the play
+  hosts: all
+  gather_facts: false
+  roles:
+    - role: debug_vars

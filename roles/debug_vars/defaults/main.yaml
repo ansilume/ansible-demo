@@ -1,0 +1,9 @@
+---
+# When true, gathered facts (ansible_facts) are also dumped. Default
+# is false so the output stays focused on the vars actually passed
+# into the play (extra vars, group_vars, host_vars, role defaults).
+debug_vars_include_facts: false
+
+# When true, hostvars for the current host are dumped in addition to
+# the play-level vars. Useful when inspecting inventory-derived values.
+debug_vars_include_hostvars: true

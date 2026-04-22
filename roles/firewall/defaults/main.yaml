@@ -7,6 +7,6 @@ firewall_allowed_tcp_ports:
 firewall_allowed_udp_ports: []
 firewall_state: enabled
 firewall_logging: low
-firewalld_zone: public
-firewalld_services:
+firewall_zone: public
+firewall_services:
   - ssh

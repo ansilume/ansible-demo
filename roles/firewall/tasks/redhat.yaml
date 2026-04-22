@@ -13,16 +13,16 @@
 - name: Allow services via firewalld
   ansible.posix.firewalld:
     service: "{{ item }}"
-    zone: "{{ firewalld_zone }}"
+    zone: "{{ firewall_zone }}"
     permanent: true
     immediate: true
     state: enabled
-  loop: "{{ firewalld_services }}"
+  loop: "{{ firewall_services }}"
 
 - name: Allow TCP ports via firewalld
   ansible.posix.firewalld:
     port: "{{ item }}/tcp"
-    zone: "{{ firewalld_zone }}"
+    zone: "{{ firewall_zone }}"
     permanent: true
     immediate: true
     state: enabled
@@ -31,7 +31,7 @@
 - name: Allow UDP ports via firewalld
   ansible.posix.firewalld:
     port: "{{ item }}/udp"
-    zone: "{{ firewalld_zone }}"
+    zone: "{{ firewall_zone }}"
     permanent: true
     immediate: true
     state: enabled

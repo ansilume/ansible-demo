@@ -121,13 +121,13 @@ Pass variable overrides via **Extra Vars** (JSON) in the Ansilume job template o
 **Harden SSH with a group allowlist and custom port:**
 
 ```json
-{"ssh_port": 2222, "ssh_allow_groups": ["sshusers"]}
+{"ssh_hardening_port": 2222, "ssh_hardening_allow_groups": ["sshusers"]}
 ```
 
 **Open a web server in the firewall:**
 
 ```json
-{"firewall_allowed_tcp_ports": [22, 80, 443], "firewalld_services": ["ssh", "http", "https"]}
+{"firewall_allowed_tcp_ports": [22, 80, 443], "firewall_services": ["ssh", "http", "https"]}
 ```
 
 **Apply all updates (not only security) with auto-reboot:**

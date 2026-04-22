@@ -1,0 +1,12 @@
+---
+firewall_default_incoming: deny
+firewall_default_outgoing: allow
+firewall_default_routed: deny
+firewall_allowed_tcp_ports:
+  - 22
+firewall_allowed_udp_ports: []
+firewall_state: enabled
+firewall_logging: low
+firewalld_zone: public
+firewalld_services:
+  - ssh

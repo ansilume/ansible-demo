@@ -1,0 +1,6 @@
+---
+- name: Configure unattended security updates
+  hosts: all
+  become: true
+  roles:
+    - role: unattended_upgrades

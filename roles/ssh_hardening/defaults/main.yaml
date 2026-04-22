@@ -1,0 +1,21 @@
+---
+ssh_port: 22
+ssh_permit_root_login: "no"
+ssh_password_authentication: false
+ssh_pubkey_authentication: true
+ssh_permit_empty_passwords: false
+ssh_kbd_interactive_authentication: false
+ssh_kerberos_authentication: false
+ssh_gssapi_authentication: false
+ssh_x11_forwarding: false
+ssh_allow_tcp_forwarding: false
+ssh_allow_agent_forwarding: false
+ssh_max_auth_tries: 3
+ssh_login_grace_time: 30
+ssh_client_alive_interval: 300
+ssh_client_alive_count_max: 2
+ssh_allow_users: []
+ssh_allow_groups: []
+ssh_deny_users: []
+ssh_deny_groups: []
+ssh_service_name: "{{ 'ssh' if ansible_facts['os_family'] == 'Debian' else 'sshd' }}"

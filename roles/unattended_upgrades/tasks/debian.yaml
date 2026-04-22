@@ -1,0 +1,31 @@
+---
+- name: Install unattended-upgrades
+  ansible.builtin.apt:
+    name:
+      - unattended-upgrades
+      - apt-listchanges
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Deploy unattended-upgrades configuration
+  ansible.builtin.template:
+    src: 50unattended-upgrades
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Deploy APT periodic configuration
+  ansible.builtin.template:
+    src: 20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Ensure unattended-upgrades service is enabled
+  ansible.builtin.service:
+    name: unattended-upgrades
+    enabled: true
+    state: started

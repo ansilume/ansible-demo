@@ -1,0 +1,8 @@
+---
+- name: Configure unattended upgrades on Debian family
+  ansible.builtin.include_tasks: debian.yaml
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Configure unattended upgrades on RedHat family
+  ansible.builtin.include_tasks: redhat.yaml
+  when: ansible_facts['os_family'] == 'RedHat'

@@ -1,0 +1,6 @@
+---
+- name: Harden SSH server configuration
+  hosts: all
+  become: true
+  roles:
+    - role: ssh_hardening

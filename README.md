@@ -21,7 +21,10 @@ This repository is automatically added as the **Demo** project in every fresh An
 ├── playbooks/
 │   ├── bashrc.yaml
 │   ├── common.yaml
+│   ├── configure_firewall.yaml
+│   ├── configure_unattended_upgrades.yaml
 │   ├── create_user.yaml
+│   ├── harden_ssh.yaml
 │   ├── hostsfile.yaml
 │   ├── install_docker_ce.yaml
 │   ├── install_fail2ban.yaml
@@ -38,15 +41,18 @@ This repository is automatically added as the **Demo** project in every fresh An
     ├── common/
     ├── docker_ce/
     ├── fail2ban/
+    ├── firewall/
     ├── hostsfile/
     ├── htop/
     ├── maintenance/
     ├── motd/
     ├── nginx/
     ├── onepassword_cli/
+    ├── ssh_hardening/
     ├── system_upgrade/
     ├── system_user/
     ├── timeout_test/
+    ├── unattended_upgrades/
     └── vim/
 ```
 
@@ -58,7 +64,10 @@ This repository is automatically added as the **Demo** project in every fresh An
 |---|---|---|
 | `bashrc.yaml` | `bashrc` | Deploy a managed `.bashrc` to one or more users |
 | `common.yaml` | `common` | Install baseline packages and configure SSH keys |
+| `configure_firewall.yaml` | `firewall` | Manage host firewall (ufw on Debian, firewalld on RHEL) |
+| `configure_unattended_upgrades.yaml` | `unattended_upgrades` | Enable automatic security updates (unattended-upgrades / dnf-automatic) |
 | `create_user.yaml` | `system_user` | Create a system user with optional sudo and SSH key |
+| `harden_ssh.yaml` | `ssh_hardening` | Harden sshd via a validated drop-in configuration |
 | `hostsfile.yaml` | `hostsfile` | Manage `/etc/hosts` |
 | `install_docker_ce.yaml` | `docker_ce` | Install Docker CE from the official repository |
 | `install_fail2ban.yaml` | `fail2ban` | Install and configure fail2ban with SSH jail |
@@ -107,6 +116,24 @@ Pass variable overrides via **Extra Vars** (JSON) in the Ansilume job template o
 
 ```json
 {"hostsfile_servers_mandatory": ["10.0.0.10  db01 db01.internal"]}
+```
+
+**Harden SSH with a group allowlist and custom port:**
+
+```json
+{"ssh_port": 2222, "ssh_allow_groups": ["sshusers"]}
+```
+
+**Open a web server in the firewall:**
+
+```json
+{"firewall_allowed_tcp_ports": [22, 80, 443], "firewalld_services": ["ssh", "http", "https"]}
+```
+
+**Apply all updates (not only security) with auto-reboot:**
+
+```json
+{"unattended_upgrades_security_only": false, "unattended_upgrades_auto_reboot": true}
 ```
 
 ## Local usage

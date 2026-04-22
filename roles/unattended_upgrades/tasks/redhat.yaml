@@ -1,0 +1,19 @@
+---
+- name: Install dnf-automatic
+  ansible.builtin.dnf:
+    name: dnf-automatic
+    state: present
+
+- name: Deploy dnf-automatic configuration
+  ansible.builtin.template:
+    src: automatic.conf
+    dest: /etc/dnf/automatic.conf
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Enable dnf-automatic timer
+  ansible.builtin.systemd:
+    name: dnf-automatic.timer
+    enabled: true
+    state: started

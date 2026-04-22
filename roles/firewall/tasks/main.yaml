@@ -1,0 +1,8 @@
+---
+- name: Configure firewall on Debian family
+  ansible.builtin.include_tasks: debian.yaml
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Configure firewall on RedHat family
+  ansible.builtin.include_tasks: redhat.yaml
+  when: ansible_facts['os_family'] == 'RedHat'

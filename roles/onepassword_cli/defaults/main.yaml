@@ -3,3 +3,4 @@ onepassword_cli_package_name: 1password-cli
 onepassword_cli_debian_prerequisites:
   - gnupg
   - debsig-verify
+  - python3-debian

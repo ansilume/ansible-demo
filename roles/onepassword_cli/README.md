@@ -17,6 +17,7 @@ repository with RPM GPG key import.
 | Variable | Default | Description |
 |---|---|---|
 | `onepassword_cli_package_name` | `1password-cli` | Package name to install |
+| `onepassword_cli_debian_prerequisites` | `[gnupg, debsig-verify]` | APT packages installed on Debian-family hosts before configuring the repo |
 
 ## Example usage
 

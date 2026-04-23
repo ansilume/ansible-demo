@@ -2,6 +2,13 @@
 - name: Set up 1Password CLI repository on Debian-family systems
   when: ansible_facts['os_family'] == "Debian"
   block:
+    - name: Install prerequisites for 1Password APT repository
+      ansible.builtin.apt:
+        name: "{{ onepassword_cli_debian_prerequisites }}"
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
     - name: Create APT keyring directory
       ansible.builtin.file:
         path: /etc/apt/keyrings

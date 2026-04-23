@@ -136,6 +136,12 @@ Pass variable overrides via **Extra Vars** (JSON) in the Ansilume job template o
 {"unattended_upgrades_security_only": false, "unattended_upgrades_auto_reboot": true}
 ```
 
+**MOTD with custom fields and no warning block:**
+
+```json
+{"motd_show_warning": false, "motd_extra_info": {"Owner": "ops@example.com", "Env": "production"}}
+```
+
 ## Local usage
 
 Run against a specific host:

@@ -8,9 +8,14 @@
   OS         : {{ ansible_distribution }} {{ ansible_distribution_version }}
   Kernel     : {{ ansible_kernel }}
   IP address : {{ ansible_default_ipv4.address | default('N/A') }}
+{% for key, value in motd_extra_info.items() %}
+  {{ '%-10s' | format(key) }} : {{ value }}
+{% endfor %}
+{% if motd_show_warning %}
 
   This system is managed by Ansible.
   Unauthorized access is strictly prohibited.
+{% endif %}
 
 ################################################################################
 {% if motd_footer %}

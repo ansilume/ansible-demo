@@ -4,3 +4,7 @@ motd_path: /etc/motd
 motd_header: ""
 # Optional text appended after the system info block
 motd_footer: ""
+# Extra key/value pairs rendered after the IP address line (insertion order preserved)
+motd_extra_info: {}
+# Show the "managed by Ansible / unauthorized access prohibited" warning block
+motd_show_warning: true

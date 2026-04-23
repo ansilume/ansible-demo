@@ -33,6 +33,7 @@
           - "{{ ansible_facts['dpkg_architecture'] | default('amd64') }}"
         state: present
         enabled: true
+      register: onepassword_cli_apt_repo
 
     - name: Create debsig-verify policy directory
       ansible.builtin.file:
@@ -68,6 +69,11 @@
           -o /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
           /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.asc
         creates: /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+
+    - name: Refresh APT cache after adding 1Password repository
+      ansible.builtin.apt:
+        update_cache: true
+      when: onepassword_cli_apt_repo is changed
 
 - name: Set up 1Password CLI repository on RedHat-family systems
   when: ansible_facts['os_family'] == "RedHat"

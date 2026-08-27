@@ -73,7 +73,7 @@
     - name: Refresh APT cache after adding 1Password repository
       ansible.builtin.apt:
         update_cache: true
-      when: onepassword_cli_apt_repo is changed
+      when: onepassword_cli_apt_repo is changed # noqa: no-handler it has to run BEFORE the ansible.builtin.package task
 
 - name: Set up 1Password CLI repository on RedHat-family systems
   when: ansible_facts['os_family'] == "RedHat"

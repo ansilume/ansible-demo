@@ -25,12 +25,12 @@
       ansible.builtin.deb822_repository:
         name: 1password
         types: [deb]
-        uris: "https://downloads.1password.com/linux/debian/{{ ansible_facts['architecture'] | default('amd64') }}"
+        uris: "https://downloads.1password.com/linux/debian/{{ onepassword_cli_dpkg_architecture }}"
         signed_by: /etc/apt/keyrings/1password-archive-keyring.asc
         suites: [stable]
         components: [main]
         architectures:
-          - "{{ ansible_facts['architecture'] | default('amd64') }}"
+          - "{{ onepassword_cli_dpkg_architecture }}"
         state: present
         enabled: true
       register: onepassword_cli_apt_repo

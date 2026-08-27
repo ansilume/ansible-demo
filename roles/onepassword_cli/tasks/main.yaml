@@ -25,12 +25,12 @@
       ansible.builtin.deb822_repository:
         name: 1password
         types: [deb]
-        uris: "https://downloads.1password.com/linux/debian/{{ ansible_facts['dpkg_architecture'] | default('amd64') }}"
+        uris: "https://downloads.1password.com/linux/debian/{{ ansible_facts['architecture'] | default('amd64') }}"
         signed_by: /etc/apt/keyrings/1password-archive-keyring.asc
         suites: [stable]
         components: [main]
         architectures:
-          - "{{ ansible_facts['dpkg_architecture'] | default('amd64') }}"
+          - "{{ ansible_facts['architecture'] | default('amd64') }}"
         state: present
         enabled: true
       register: onepassword_cli_apt_repo
@@ -73,7 +73,7 @@
     - name: Refresh APT cache after adding 1Password repository
       ansible.builtin.apt:
         update_cache: true
-      when: onepassword_cli_apt_repo is changed
+      when: onepassword_cli_apt_repo is changed # noqa: no-handler it has to run BEFORE the ansible.builtin.package task
 
 - name: Set up 1Password CLI repository on RedHat-family systems
   when: ansible_facts['os_family'] == "RedHat"

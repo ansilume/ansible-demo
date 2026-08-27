@@ -4,3 +4,4 @@ onepassword_cli_debian_prerequisites:
   - gnupg
   - debsig-verify
   - python3-debian
+onepassword_cli_dpkg_architecture: "{{ ansible_facts['architecture'] | default('amd64') }}"
